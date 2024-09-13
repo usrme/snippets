@@ -1,0 +1,72 @@
+---
+title: Vim
+description: Vim oneliners.
+---
+import { Steps } from '@astrojs/starlight/components';
+
+## Write file opened as 'readonly'
+
+```vim
+:w !sudo tee "%"
+```
+
+## Visual editing can be used to delete any number of lines
+
+Shift+V from point of cursor and press D key to delete
+
+## Search and replace
+
+### In the current file
+
+```vim
+:%s/search/replace/g
+```
+
+### Across all directories
+
+<Steps>
+1. Open Telescope with fuzzy finding: `<leader>fw`
+2. Type in search term
+3. Add all results to quickfix list at once using `<Ctrl-q>` or alternatively, press Tab on every desired entry
+4. Type the following command: `:cfdo %s/search/replace/g`
+5. Write all changes: `:wa`
+</Steps>
+
+## Disable search highlight
+
+```vim
+:noh
+```
+
+## Prepend multiple lines with a character
+
+<Steps>
+1. Shift+V from point of cursor to enter Visual Block mode
+2. Move up/down to select multiple lines
+3. `:` to enter commands
+4. `s/^/#/g` to replace first character on the lines with a `#`
+</Steps>
+
+The prompt will look something like this when all done: `:'<,'>s/^/#/g`
+
+## Format to certain column width
+
+<Steps>
+1. Set text width to desired width: `:set textwidth=80`
+2. Move to start of file: `gg`
+3. Format text from start to the end: `gqG`
+</Steps>
+
+Use visual mode the selectively format (don't move to start of the file in that case)
+
+## Measure start-up speed
+
+* `hyperfine "nvim --headless +qa" --warmup 5`
+* `nvim --startuptime startup.log -c exit && tail -100 startup.log`
+
+## Re-indent according to file type
+
+* A single line: `==`
+* A range of lines: `<range>==`
+* Entire file: `gg=G`
+  * Probably won't be as intelligent as a language-specific formatter
