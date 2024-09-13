@@ -5,7 +5,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'Back to home page',
+      title: 'Snippets',
       customCss: [
         './src/styles/starlight.css',
       ],
