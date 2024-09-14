@@ -1,5 +1,5 @@
 ---
-title: Snippets
+title: Üllar Maasik
 template: splash
 hero:
   title: Welcome to the treasure trove
