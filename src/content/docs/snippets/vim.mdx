@@ -11,8 +11,7 @@ import { Steps } from '@astrojs/starlight/components';
 ```
 
 ## Visual editing can be used to delete any number of lines
-
-Shift+V from point of cursor and press D key to delete
+Shift+V from point of cursor and press D key to delete.
 
 ## Search and replace
 
@@ -25,11 +24,26 @@ Shift+V from point of cursor and press D key to delete
 ### Across all directories
 
 <Steps>
-1. Open Telescope with fuzzy finding: `<leader>fw`
+1. Open Telescope with fuzzy finding: 
+
+    ```vim
+    <leader>fw
+    ```
+
 2. Type in search term
 3. Add all results to quickfix list at once using `<Ctrl-q>` or alternatively, press Tab on every desired entry
-4. Type the following command: `:cfdo %s/search/replace/g`
-5. Write all changes: `:wa`
+4. Type the following command:
+
+    ```vim
+    :cfdo %s/search/replace/g
+    ```
+
+5. Write all changes:
+
+    ```vim
+    :cfdo %s/search/replace/g
+    ```
+
 </Steps>
 
 ## Disable search highlight
@@ -47,14 +61,33 @@ Shift+V from point of cursor and press D key to delete
 4. `s/^/#/g` to replace first character on the lines with a `#`
 </Steps>
 
-The prompt will look something like this when all done: `:'<,'>s/^/#/g`
+The prompt will look something like this when all done:
+
+```vim
+:'<,'>s/^/#/g
+```
 
 ## Format to certain column width
 
 <Steps>
-1. Set text width to desired width: `:set textwidth=80`
-2. Move to start of file: `gg`
-3. Format text from start to the end: `gqG`
+1. Set text width to desired width:
+
+    ```vim
+    :set textwidth=80
+    ```
+
+2. Move to start of file:
+
+    ```vim
+    gg
+    ```
+
+3. Format text from start to the end:
+
+    ```vim
+    gqG
+    ```
+
 </Steps>
 
 Use visual mode the selectively format (don't move to start of the file in that case)
@@ -73,9 +106,11 @@ Use visual mode the selectively format (don't move to start of the file in that 
 
 ## Reverse lines
 
-More information [here](https://vimhelp.org/usr_12.txt.html#12.4).
+```vim
+:g/^/m0
+```
 
-* `:g/^/m0`
+More information [here](https://vimhelp.org/usr_12.txt.html#12.4).
 
 Use visual mode to selectively reverse (`(:g|:global)` command is still required).
 
