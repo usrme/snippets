@@ -12,11 +12,18 @@ $ tree -L 3 -I 'dist|node_modules|public'
 ├── package-lock.json
 ├── package.json
 ├── src
-│   ├── assets
-│   │   └── houston.webp
 │   ├── content
 │   │   ├── config.ts
 │   │   └── docs
+│   │       ├── index.md
+│   │       └── snippets
+│   │           ├── ansible.md
+│   │           ├── docker-podman.md
+│   │           ├── git.md
+│   │           ├── kubernetes.mdx
+│   │           ├── powershell.md
+│   │           ├── shell.md
+│   │           └── vim.mdx
 │   ├── env.d.ts
 │   └── styles
 │       └── starlight.css
