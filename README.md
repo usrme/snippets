@@ -5,7 +5,7 @@
 ## 🚀 Project Structure
 
 ```console
-$ tree -L 3 -I 'dist|node_modules|public'
+$ tree -L 5 -I 'dist|node_modules|public'
 .
 ├── README.md
 ├── astro.config.mjs
