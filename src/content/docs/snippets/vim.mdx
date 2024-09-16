@@ -70,3 +70,13 @@ Use visual mode the selectively format (don't move to start of the file in that 
 * A range of lines: `<range>==`
 * Entire file: `gg=G`
   * Probably won't be as intelligent as a language-specific formatter
+
+## Reverse lines
+
+More information [here](https://vimhelp.org/usr_12.txt.html#12.4).
+
+* `:g/^/m0`
+
+Use visual mode to selectively reverse (`(:g|:global)` command is still required).
+
+Useful for re-ordering commits with `git rebase -i` if you know you made the most relevant commit first and subsequent minor changes afterwards.
