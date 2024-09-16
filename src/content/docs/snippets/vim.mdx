@@ -94,8 +94,41 @@ Use visual mode the selectively format (don't move to start of the file in that 
 
 ## Measure start-up speed
 
-* `hyperfine "nvim --headless +qa" --warmup 5`
-* `nvim --startuptime startup.log -c exit && tail -100 startup.log`
+* Using Hyperfine:
+
+    ```console
+    $ hyperfine "nvim --headless +qa" --warmup 5
+    Benchmark 1: nvim --headless +qa
+      Time (mean ± σ):      40.3 ms ±   1.8 ms    [User: 16.1 ms, System: 8.0 ms]
+      Range (min … max):    37.2 ms …  46.3 ms    58 runs
+    ```
+
+* Using NeoVim itself:
+
+    ```console
+    $ nvim --startuptime startup.log -c exit && head -n 21 startup.log
+    --- Startup times for process: Primary/TUI ---
+
+    times in msec
+     clock   self+sourced   self:  sourced script
+     clock   elapsed:              other lines
+
+    000.000  000.000: --- NVIM STARTING ---
+    000.070  000.070: event init
+    000.197  000.126: early init
+    000.368  000.172: locale set
+    000.414  000.046: init first window
+    011.338  010.925: inits 1
+    011.346  000.008: window checked
+    011.350  000.004: parsing arguments
+    011.733  000.028  000.028: require('vim.shared')
+    011.798  000.031  000.031: require('vim.inspect')
+    011.836  000.028  000.028: require('vim._options')
+    011.837  000.100  000.041: require('vim._editor')
+    011.838  000.155  000.027: require('vim._init_packages')
+    011.840  000.334: init lua interpreter
+    012.142  000.302: --- NVIM STARTED ---
+    ```
 
 ## Re-indent according to file type
 
