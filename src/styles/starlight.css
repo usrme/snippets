@@ -1,3 +1,9 @@
 :root {
   --sl-content-width: 95ch;
+  --sl-color-accent-low: #ffffff;
+  --sl-color-accent-high: #7b7fce;
+  --sl-color-gray-6: #1c2128;
+}
+:root[data-theme='light'] {
+  --sl-color-accent: #7b7fce;
 }
