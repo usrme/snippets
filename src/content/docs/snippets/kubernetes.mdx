@@ -88,11 +88,13 @@ kubectl logs pod/<pod>
 
 ## Use 'helm upgrade' to install new version of a chart
 
-This is far simpler than a more complex `helm install` command with tons of `--set` options. More infomration [here](https://helm.sh/docs/helm/helm_upgrade/)
+This is far simpler than a more complex `helm install` command with tons of `--set` options.
 
 ```shell
 helm upgrade <release name> <chart name> --reuse-values
 ```
+
+More information [here](https://helm.sh/docs/helm/helm_upgrade/).
 
 ## Get secret with a dot in its name
 

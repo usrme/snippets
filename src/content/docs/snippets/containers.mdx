@@ -1,0 +1,60 @@
+---
+title: Containers
+description: Container-specific oneliners.
+---
+import { Aside, CardGrid, LinkCard, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Aside type="note">Most, if not all, of these are interchangeable between Docker and Podman.</Aside>
+
+## Parse build arguments from a file
+
+```shell
+docker build -t foo \
+  $(while IFS= read -r line; do args+="--build-arg ${line} "; \above
+  done < <(cat .arg); \
+echo "$args"; unset args) .
+```
+
+From [here](https://ilhicas.com/2018/11/03/docker-build-with-build-arg-wit-multiple-arguments.html)
+
+## Remove all 'exited' containers
+
+```shell
+docker rm $(docker ps --all -q -f status=exited)
+```
+
+## Build and run container
+
+```shell
+docker build -t foo . && docker run --rm -it foo
+```
+
+## Prune everything that shouldn't exist
+
+```shell
+docker system prune -a -f
+```
+
+## Remove all images except 'latest'
+
+```shell
+docker images | grep -v "latest" | tail -n +2 | awk '{ print $3 }' | xargs --no-run-if-empty docker rmi
+```
+
+## Improve 'RUN' execution in a Dockerfile
+
+Benefit is that when a specific line fails, then the error message is much more concise as opposed to the standard method of using ampersands.
+
+```dockerfile
+RUN set -eu; \
+    python3 -m venv venv; \
+    venv/bin/pip install -r requirements.txt; \
+    venv/bin/pip install -r requirements-dev.txt; \
+    echo 'Venv creation + requirements installation: OK';
+```
+
+## Remove dangling images
+
+```shell
+docker rmi $(docker images -f "dangling=true" -q)
+```

@@ -14,7 +14,7 @@ export default defineConfig({
           label: 'Start here',
           items: [
             { label: 'Ansible', link: '/snippets/ansible' },
-            { label: 'Docker/Podman', link: '/snippets/docker-podman' },
+            { label: 'Containers', link: '/snippets/containers' },
             { label: 'Git', link: '/snippets/git' },
             { label: 'Kubernetes', link: '/snippets/kubernetes' },
             { label: 'PowerShell', link: '/snippets/powershell' },
