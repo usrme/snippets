@@ -2,9 +2,16 @@
 title: Kubernetes
 description: Kubernetes snippets.
 ---
-import { Steps } from '@astrojs/starlight/components';
+import { Aside, CardGrid, LinkCard, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
-These are currently specific to `kubectl` and there are tons more [here](https://kubernetes.io/docs/reference/kubectl/cheatsheet/).
+<Aside type="note">These are currently specific to `kubectl` and there are tons more [here](https://kubernetes.io/docs/reference/kubectl/cheatsheet/).</Aside>
+
+## Alternative interfaces
+
+<CardGrid>
+    <LinkCard title="Click" href="https://github.com/databricks/click"/>
+    <LinkCard title="K9s" href="https://k9scli.io"/>
+</CardGrid>
 
 ## Set up short names for contexts
 
@@ -32,14 +39,6 @@ These are currently specific to `kubectl` and there are tons more [here](https:/
     ```
 </Steps>
 
-## Just use Click
-
-[Here](https://github.com/databricks/click). From [here](https://www.awelm.com/posts/click/).
-
-## Just use K9s
-
-[Here](https://k9scli.io/).
-
 ## Use specific context (i.e. cluster)
 
 ```shell
@@ -62,22 +61,24 @@ kubectl config set-context --current --namespace=<namespace>
 
 ## List everything
 
-This doesn't actually list _everything_. See below for more.
-
-```shell
-kubectl get all
-```
-
-Actually list everything. May take awhile.
-
-```bash
-function k_get_all () {
-    for i in $(kubectl api-resources --verbs=list --namespaced -o name | \
-        grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
-            kubectl get --show-kind --ignore-not-found ${i};
-    done
-}
-```
+<Tabs>
+    <TabItem label="Naive approach">
+    ```shell
+    kubectl get all
+    ```
+    </TabItem>
+    <TabItem label="Actually list everything">
+    ```bash
+    function k_get_all () {
+        for i in $(kubectl api-resources --verbs=list --namespaced -o name | \
+            grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+                kubectl get --show-kind --ignore-not-found ${i};
+        done
+    }
+    ```
+    <Aside type="note">May take awhile</Aside>
+    </TabItem>
+</Tabs>
 
 ## Show pod logs
 
