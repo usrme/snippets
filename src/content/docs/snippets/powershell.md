@@ -1,6 +1,6 @@
 ---
 title: PowerShell
-description: PowerShell oneliners.
+description: PowerShell snippets.
 ---
 ## Get today's date and time where time is set to midnight
 
