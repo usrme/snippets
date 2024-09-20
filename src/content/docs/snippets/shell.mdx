@@ -1,14 +1,16 @@
 ---
 title: Shell
-description: Shell oneliners.
+description: Shell snippets.
 ---
-## Basic `for` loop to iterate over lines in a file
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Basic loop to iterate over lines in a file
 
 ```bash
 for pkg in $(cat pkgs.txt); do sudo apt purge "$pkg" -y; done
 ```
 
-## More complex `for` loop using `if` statement
+## More complex loop using 'if' statement
 
 Useful for control actions, cleaning up output, etc.
 
@@ -19,7 +21,7 @@ for node in $(cat nodes.txt); do \
 done
 ```
 
-## Checking **very** busy log files for their contents
+## Checking busy log files for their contents
 
 This does not hang your console as opposed to using `tail -f`.
 
@@ -27,7 +29,7 @@ This does not hang your console as opposed to using `tail -f`.
 watch -n 0.5 sudo tail /var/log/named/queries.log
 ```
 
-## Alternative conditional logic in `for` loop iterating over array variable
+## Alternative conditional logic in loop
 
 Declare `nodes` variable separately or prepend to loop and separate with semicolon.
 
@@ -38,7 +40,7 @@ for node in "${nodes[@]}"; do \
 done
 ```
 
-## Use `while` loop to iterate over lines in a file
+## 'while' loop to iterate over lines in a file
 
 Avoids calls to `cat` as is the case with the `for` loop example. Using `madison` command rather than `policy` seems to be slightly faster.
 
@@ -64,7 +66,7 @@ types=($(grep -oE 'pattern' input.txt))
 sed -n '/pattern1/,/pattern2/p' input.txt
 ```
 
-## Just see octal permissions for a file or directory
+## Octal permissions for a file or directory
 
 ```shell
 stat -c '%a' /etc/passwd
@@ -76,7 +78,7 @@ stat -c '%a' /etc/passwd
 last_character=${string_variable:-1}
 ```
 
-## Parse file list from output of `grep` into subsequent commands
+## Parse output of 'grep' into commands
 
 ```bash
 grep -rl '\-\- MARK \-\-' /var/log/* | \
@@ -86,7 +88,7 @@ grep -rl '\-\- MARK \-\-' /var/log/* | \
   done
 ```
 
-## Include lines before and after a `grep` match
+## Include lines before/after a 'grep' match
 
 ```shell
 grep -B 3 -A 3 -i "hv_fcopy" /var/log/messages
@@ -110,7 +112,7 @@ find . -type f -mmin -1 -size +500M -exec ls -lsh {} \;
 find . -type f -mtime -1 -size +2G -exec bash -c 'echo > {}' \;
 ```
 
-## Run arbitrary command against a list of directories
+## Run command against a list of directories
 
 ```shell
 ls | xargs -I {} git -C {} pull
@@ -131,58 +133,56 @@ trap read debug
 dpkg-reconfigure tzdata
 ```
 
-## Search binary file that looks like text while ignoring case
+## Search binary file while ignoring case
 
 ```shell
 grep -ai "end:" /var/log/syslog
 ```
 
-## Count time, calls, and errors for each system call when performing a directory listing
+## System call info for a directory listing
 
 ```shell
 strace -c ls test/
 ```
 
-## Add to script to determine which line number the execution is at
+## Show line number during script run
 
 ```bash
 echo "DEBUG: ${LINENO}"
 ```
 
-## Remove duplicated lines from a file without messing up the order
+## Remove duplicated lines in order
 
 ```shell
 awk '!visited[$0]++' your_file > deduplicated_file
 ```
 
-## Run local script on a remote endpoint using SSH
+## Run local script on a remote endpoint
 
 ```shell
 ssh -q <username>@<endpoint> "sudo bash -s" < local_script.sh
 ```
 
-## Create new directory and change right into it
+## Create new directory and change into it
 
-### Oneliner
-
-```shell
-mkdir new_directory && cd $_
-```
-
-### Alias
-
-From [here](https://unix.stackexchange.com/a/9124).
-
-```bash
-function mkcd () {
-  mkdir "$1"
-  cd "$1"
-}
-```
+<Tabs>
+    <TabItem label="Oneliner">
+    ```shell
+    mkdir new_directory && cd $_
+    ```
+    </TabItem>
+    <TabItem label="Alias">
+    ```bash
+    function mkcd () {
+      mkdir "$1"
+      cd "$1"
+    }
+    ```
+    From [here](https://unix.stackexchange.com/a/9124).
+    </TabItem>
+</Tabs>
 
 ## Recall argument to last used command
-
-From [here](https://stackoverflow.com/a/3371711).
 
 ```bash
 $_
@@ -192,21 +192,24 @@ Alt + .
 !:1-2
 ```
 
+From [here](https://stackoverflow.com/a/3371711).
+
 ## Get SSH key fingerprint
 
-### SHA-256
+<Tabs>
+    <TabItem label="SHA-256">
+    ```shell
+    ssh-keygen -lf ~/.ssh/id_rsa.pub
+    ```
+    </TabItem>
+    <TabItem label="MD5">
+    ```shell
+    ssh-keygen -E md5 -lf ~/.ssh/id_rsa.pub
+    ```
+    </TabItem>
+</Tabs>
 
-```shell
-ssh-keygen -lf ~/.ssh/id_rsa.pub
-```
-
-### MD5
-
-```shell
-ssh-keygen -E md5 -lf ~/.ssh/id_rsa.pub
-```
-
-## Find broken symbolic links in current directory
+## Find broken symbolic links
 
 ```shell
 find . -xtype l
@@ -219,33 +222,35 @@ find . -lname '<relative-to-source target>*' \
   -exec sh -c 'ln -sfn "<new relative-to-source target>/$(basename $0)" $0' {} \;
 ```
 
-## Run remote script on remote endpoint using SSH
+## Run remote script on remote endpoint
 
 ```shell
 ssh -q <username>@<endpoint> './location/to/script'
 ```
 
-## Create ISO from directory without truncating long names (`-l`)
+## Create ISO from directory
 
-Also by not replacing hyphens with underscores (`-iso-level 4`).
+The `-l` doesn't truncate long names and hyphens with underscores aren't replaced using `-iso-level 4`.
 
 ```shell
 genisoimage -o data.iso -iso-level 4 -R -l data/
 ```
 
-## List ISO file contents without having to mount it
+## List ISO file contents without mounting
 
 ```shell
 isoinfo -l -i data.iso
 ```
 
-## Simple colouring for log files, both static and running output
+## Simple colouring for log files
 
-From [here](https://automationrhapsody.com/coloured-log-files-linux/).
+Works for both static and running output.
 
 ```shell
 cat test.log | perl -pe 's/^\[\*\].*/\e[0;36m$&\e[0m/g; s/^\[\+\].*/\e[0;32m$&\e[0m/g; s/^\[\!\].*/\e[0;31m$&\e[0m/g'
 ```
+
+From [here](https://automationrhapsody.com/coloured-log-files-linux/).
 
 ## Suppress Python warnings
 
@@ -255,7 +260,7 @@ For situations like [these](https://github.com/Azure/azure-cli/pull/13435).
 export PYTHONWARNINGS='ignore'
 ```
 
-## Remove last column in string based on delimiter
+## Remove last column using delimiter
 
 ```console
 $ string='my_underscored_string_12345'
@@ -263,7 +268,7 @@ $ echo "$string" | rev | cut -d '_' -f 2- | rev
 my_underscored_string
 ```
 
-## Prefix aliased command with backslash to avoid triggering alias
+## Disregard alias execution
 
 ```console
 $ halt -p
@@ -276,8 +281,6 @@ Connection to example.com closed by remote host.
 
 ## Pretty print CSV files
 
-From [here](https://www.stefaanlippens.net/pretty-csv.html)
-
 ```bash
 function pretty_csv {
     perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' "$@" | column -t -s, | less  -F -S -X -K
@@ -287,6 +290,8 @@ pretty_csv data.csv
 pretty_csv < data.csv
 sort data.csv | pretty_csv
 ```
+
+From [here](https://www.stefaanlippens.net/pretty-csv.html)
 
 ## Pretty print TSV files
 
@@ -300,13 +305,13 @@ pretty_tsv < data.tsv
 sort data.tsv | pretty_tsv
 ```
 
-## Diff two files and save unified output to file
+## Diff two files and save output to file
 
 ```shell
 diff -u file1 file2 > files.diff
 ```
 
-## Show build information for cloud-based image
+## Show build information for cloud image
 
 ```console
 $ cat /etc/cloud/build.info 
@@ -314,47 +319,51 @@ build_name: server
 serial: 20201211.1
 ```
 
-## Show top disk usage and exclude certain directories under root
+## Show top disk usage and exclude directories
 
 ```shell
 du -Sh / --exclude=/{proc,sys,dev,var} | sort -rh | head -n 10
 ```
 
-## Use the built-in `:` as a short-hand for an infinite loop
+## Use ':' for an infinite loop
 
 ```bash
 while :; do "looping"; done
 ```
 
-## Re-execute a Bash to 'unsource' variables and aliases
+## Execute Bash to 'unsource' variables
 
 ```shell
 exec /bin/bash
 ```
 
-## Use binary version of `time` instead of Bash built-in
+## Use binary version of 'time'
 
-This provides access to more information. From [here](https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks).
+This provides access to more information.
 
 ```shell
 $(which time) --verbose echo "test"
 ```
 
-## Use `perf stat` to easily repeat a command
+ From [here](https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks).
 
-Also provides additional useful measurements. More examples [here](https://usrme.xyz/tils/perf-is-more-robust-for-repeated-timings-than-time/)
+## Use 'perf stat' to repeat a command
+
+Also provides additional useful measurements.
 
 ```shell
 perf stat --null --repeat 5 --table echo "test"
 ```
 
-## Change nested key value in an array of JSON objects with `jq`
+More examples [here](https://usrme.xyz/tils/perf-is-more-robust-for-repeated-timings-than-time/).
+
+## Change key value in array of JSON
 
 ```plaintext
 .parameters.vmObjects.value |= map(if .vmName == "router" then .moduleSnapshot = "fixed" else . end)
 ```
 
-## Use indirect references to use dynamic variable names
+## Use indirect references for dynamic variables
 
 ```bash
 for host in "${hosts[@]}"; do
@@ -391,13 +400,7 @@ echo "text" | base64 -w 0
 awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' combined.pem
 ```
 
-## Install requirements for Poetry using existing `requirements.txt`
-
-```shell
-cat requirements.txt | xargs poetry add
-```
-
-## Direct standard output to a file in a directory that might not yet exist
+## Standard output to a new directory
 
 ```shell
 echo "something" | install -D /dev/stdin directory/file.txt
@@ -421,7 +424,7 @@ find /the/dir/to/start/in -type f -mtime +365 -ls -exec rm -f -- {} \;
 tree -pufid
 ```
 
-## Bulk uninstall `pip` packages according to a wildcard
+## Use wildcard in 'pip uninstall'
 
 ```shell
 pip freeze | grep "azure*" | xargs -n 1 pip uninstall -y
@@ -433,13 +436,13 @@ pip freeze | grep "azure*" | xargs -n 1 pip uninstall -y
 dnf history list <package>
 ```
 
-## Show information about specific transaction in history
-
-More on ['history'](https://www.putorius.net/dnf-history.html)
+## Show transaction's historical info
 
 ```shell
 dnf history info <transaction ID>
 ```
+
+More on ['history'](https://www.putorius.net/dnf-history.html)
 
 ## Undo last transaction
 
@@ -453,7 +456,7 @@ dnf history undo last
 systemctl list-timers
 ```
 
-## Show execution of service tied to a timer of an identical name
+## Show execution of timer and service
 
 ```shell
 journalctl -u name.timer
@@ -462,13 +465,21 @@ journalctl -u name.service
 
 ## Copy remote directory to local system
 
-```shell
-scp -rCp <user>@<remote>:<remote path> <local path>
-# OR (faster)
-rsync -azvhP <user>@<remote>:<remote path> <local path>
-```
+<Tabs>
+    <TabItem label="rsync">
+    <Aside type="tip">This should be noticeably faster than `scp`.</Aside>
+    ```shell
+    rsync -azvhP <user>@<remote>:<remote path> <local path>
+    ```
+    </TabItem>
+    <TabItem label="scp">
+    ```shell
+    scp -rCp <user>@<remote>:<remote path> <local path>
+    ```
+    </TabItem>
+</Tabs>
 
-## Overwrite existing directory with contents from another
+## Overwrite existing directory
 
 ```shell
 rsync -av --delete ~/new/ ~/old
@@ -481,7 +492,9 @@ $ sudo dnf list --installed kernel-core* | tail -n +2 | wc -l
 9
 ```
 
-## Increase number of installed kernels in `/etc/dnf/dnf.conf`
+## Increase number of installed kernels
+
+This goes in `/etc/dnf/dnf.conf`.
 
 ```plaintext
 ...
@@ -507,7 +520,7 @@ $ sudo dnf versionlock delete kernel-6.0.18-300.fc37.x86_64
 ...
 ```
 
-## Undo ad hoc changes made to a SystemD service
+## Undo ad hoc changes made to a service
 
 For example `systemd-resolved`.
 
@@ -520,17 +533,19 @@ $ systemctl restart systemd-resolved.service
 
 ## Back up a file using brace expansion
 
-Equivalent to `cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak`. More on [brace expansion](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html).
+Equivalent to `cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak`.
 
 ```shell
 cp /etc/ssh/sshd_config{,.bak}
 ```
 
-The same can be applied for directories:
+The same can be applied to directories:
 
 ```shell
 cp -aR public{,.bak}
 ```
+
+More on [brace expansion](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html).
 
 ## Restore a backed up file
 
@@ -542,6 +557,10 @@ cp /etc/ssh/sshd_config{.bak,}
 
 ## Download older version of a kernel
 
+```shell
+koji download-build --arch=x86_64 <kernel package name>
+```
+
 - More information about [Koji](https://docs.fedoraproject.org/en-US/quick-docs/kernel/installing-koji-kernel/)
 - A list of all [kernels built for Fedora](https://bodhi.fedoraproject.org/updates/?packages=kernel)
 - A list of [downloadable kernels built for Fedora](https://koji.fedoraproject.org/koji/packageinfo?packageID=8)
@@ -549,11 +568,7 @@ cp /etc/ssh/sshd_config{.bak,}
 
 Fedora Discussion [here](https://discussion.fedoraproject.org/t/how-do-i-install-an-old-kernel/76942).
 
-```shell
-koji download-build --arch=x86_64 <kernel package name>
-```
-
-## Read lines from a file into an array and execute in parallel
+## Parallel execution of lines from a file
 
 ```shell
 readarray -t items < items.txt
@@ -566,9 +581,9 @@ parallel -kj 20 echo {1} ::: "${items[@]}"
 openssl s_client -connect google.com:443 2> /dev/null | openssl x509 -noout -dates
 ```
 
-## Run programs with 'systemd-run' to leverage SystemD's features
+## Run programs with 'systemd-run'
 
-Documentation [here](https://www.freedesktop.org/software/systemd/man/systemd-run.html).
+This will leverage SystemD's features.
 
 ```console
 $ systemd-run env
@@ -581,13 +596,17 @@ Sep 08 07:37:21 bupkis env[19948]: LANG=en_US.UTF-8
 Sep 08 07:37:21 bupkis env[19948]: BOOT_IMAGE=/vmlinuz-3.11.0-0.rc5.git6.2.fc20.x86_64
 ```
 
+Documentation [here](https://www.freedesktop.org/software/systemd/man/systemd-run.html).
+
 ## Working with 'screen'
 
-- Start a session: `screen`
-- Start any long-running commands
-- Detach from session: `Ctrl+A+D`
-- List sessions: `screen -ls`
-- Attach to a running session: `screen -r <session ID>`
+<Steps>
+1. Start a session: `screen`
+2. Start any long-running commands
+3. Detach from session: `Ctrl+A+D`
+4. List sessions: `screen -ls`
+5. Attach to a running session: `screen -r <session ID>`
+</Steps>
 
 ## Don't send anything identifiable over SSH
 
@@ -596,8 +615,6 @@ ssh -a -i /dev/null -o IdentityAgent=/dev/null whoami.filippo.io
 ```
 
 ## Using Ctrl keys
-
-From [here](https://github.com/onceupon/Bash-Oneliner?tab=readme-ov-file#using-ctrl-keys).
 
 - `Ctrl + a`: move to the beginning of the line
 - `Ctrl + d`: if you've type something, it deletes the character under the cursor, otherwise it quits the current shell
@@ -623,3 +640,5 @@ From [here](https://github.com/onceupon/Bash-Oneliner?tab=readme-ov-file#using-c
   - `fg` to continue the process in the foreground
   - `bg` to continue the process in the background
 - `Ctrl + _`: undo typing
+
+From [here](https://github.com/onceupon/Bash-Oneliner?tab=readme-ov-file#using-ctrl-keys).

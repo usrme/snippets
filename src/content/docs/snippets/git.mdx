@@ -133,7 +133,7 @@ git log -L :<function>:<file>
 git config feature.manyFiles 1
 ```
 
-## Search through history for a specific word
+## Search through history for a word
 
 ```shell
 git rev-list --all | ( while read revision; do git grep -F 'word' "$revision"; done; )
