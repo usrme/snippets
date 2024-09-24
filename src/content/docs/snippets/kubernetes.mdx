@@ -116,3 +116,8 @@ An alternative would be to use `go-template`:
 kubectl get secret docker-config -o 'go-template={{index .data ".dockerconfigjson"}}' | base64 -d
 ```
 
+## List permissions
+
+```shell
+kubectl auth can-i --list
+```
