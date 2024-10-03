@@ -642,3 +642,11 @@ ssh -a -i /dev/null -o IdentityAgent=/dev/null whoami.filippo.io
 - `Ctrl + _`: undo typing
 
 From [here](https://github.com/onceupon/Bash-Oneliner?tab=readme-ov-file#using-ctrl-keys).
+
+## Use ampersand in 'sed' for efficiency
+
+The ampersand means that the entirety of what was matched will be used in the replacement.
+
+```shell
+sed 's/create/&-repo/' input.txt
+```
