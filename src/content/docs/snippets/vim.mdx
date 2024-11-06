@@ -153,3 +153,19 @@ More information [here](https://vimhelp.org/usr_12.txt.html#12.4).
 Use visual mode to selectively reverse (`(:g|:global)` command is still required).
 
 Useful for re-ordering commits with `git rebase -i` if you know you made the most relevant commit first and subsequent minor changes afterwards.
+
+## Undo options
+
+<Tabs>
+    <TabItem label="Boolean options">
+    ```vim
+    :set spell
+    :set spell!
+    ```
+    </TabItem>
+    <TabItem label="Non-boolean options">
+    ```vim
+    :set formatoptions&
+    ```
+    </TabItem>
+</Tabs>
