@@ -126,5 +126,9 @@ kubectl auth can-i --list
 ## List all unique images
 
 ```shell
-kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{range .status.images[*]}{"\t"}{.names[0]}{"\n"}{end}{end}' | awk -F '@' '{print $1}' | awk '{$1=$1;print}' | sort -u
+kubectl get nodes \
+  -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{range .status.images[*]}{"\t"}{.names[0]}{"\n"}{end}{end}' | \
+  awk -F '@' '{print $1}' | \
+  awk '{$1=$1;print}' | \
+  sort -u
 ```
