@@ -132,3 +132,22 @@ kubectl get nodes \
   awk '{$1=$1;print}' | \
   sort -u
 ```
+
+## Debug node with 'crictl'
+
+<Steps>
+1. List nodes: `kubectl get nodes`
+2. Deploy debugging pod to node: `kubectl debug node/mynode -it --image=ubuntu`
+3. Refresh packages and install `curl`: `apt update && apt install curl -y`
+4. Install `crictl`:
+
+    ```shell
+    curl -sL https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz | \
+    tar xzf - -C /usr/local/bin && \
+    export \
+      CONTAINER_RUNTIME_ENDPOINT=unix:///host/run/containerd/containerd.sock \
+      IMAGE_SERVICE_ENDPOINT=unix:///host/run/containerd/containerd.sock
+    ```
+</Steps>
+
+More information [here](https://kubernetes.io/docs/tasks/debug/debug-cluster/kubectl-node-debug/#debugging-a-node-using-kubectl-debug-node) and [here](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/).
