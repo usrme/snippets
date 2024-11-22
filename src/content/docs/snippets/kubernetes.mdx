@@ -142,7 +142,8 @@ kubectl get nodes \
 4. Install `crictl`:
 
     ```shell
-    curl -sL https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz | \
+    VER="v1.31.1"
+    curl -sL https://github.com/kubernetes-sigs/cri-tools/releases/download/${VER}/crictl-${VER}-linux-amd64.tar.gz | \
     tar xzf - -C /usr/local/bin && \
     export \
       CONTAINER_RUNTIME_ENDPOINT=unix:///host/run/containerd/containerd.sock \
