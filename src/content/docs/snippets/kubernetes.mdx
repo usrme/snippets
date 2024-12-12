@@ -152,3 +152,11 @@ kubectl get nodes \
 </Steps>
 
 More information [here](https://kubernetes.io/docs/tasks/debug/debug-cluster/kubectl-node-debug/#debugging-a-node-using-kubectl-debug-node) and [here](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/).
+
+## Trigger an External Secret refresh
+
+```shell
+kubectl annotate es my-secret force-sync=$(date +%s) --overwrite
+```
+
+More information [here](https://external-secrets.io/latest/introduction/faq/).
