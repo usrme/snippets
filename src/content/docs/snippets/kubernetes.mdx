@@ -160,3 +160,11 @@ kubectl annotate es my-secret force-sync=$(date +%s) --overwrite
 ```
 
 More information [here](https://external-secrets.io/latest/introduction/faq/).
+
+## List all pod images by namespace and pod name
+
+```shell
+kubectl get pods -o jsonpath='{range .items[*]}{@.metadata.namespace}{" "}{@.metadata.name}{" "}{@..containers..image}{" "}{"\n"}{end}' | column -t
+```
+
+The output will have the name of the active namespace (or from all namespace if instead of `-o` the `-Ao` option is used), pod name, and the image names from all the containers in the pod. The ['column'](https://www.mankier.com/1/column) command is used to nicely format the output as a table.
