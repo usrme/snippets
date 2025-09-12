@@ -192,3 +192,12 @@ Run `:diffthis` in both of the buffers. Run `:diffoff` to disable.
 ```
 
 When using relative paths, your actual working directory needs to match as well
+
+## Get the file path to the currently opened buffer
+
+<Steps>
+1. Enter Insert mode
+2. Press `<Ctrl-r>` and `%`
+</Steps>
+
+The active line should now contain the file path to the currently opened buffer, but remember that this is relative to the current working directory. So, whereever Vim was opened will be the root.
