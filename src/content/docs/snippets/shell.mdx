@@ -650,3 +650,9 @@ The ampersand means that the entirety of what was matched will be used in the re
 ```shell
 sed 's/create/&-repo/' input.txt
 ```
+
+## Read sensitive value into variable and export it
+
+```shell
+read -rs VARIABLE && export VARIABLE
+```
