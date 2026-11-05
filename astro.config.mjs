@@ -1,11 +1,48 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Atkinson Hyperlegible Next',
+      cssVariable: '--font-sans',
+      fallbacks: ['sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['./src/fonts/atkinson-next-regular.otf'],
+              weight: 400,
+              style: 'normal',
+              display: 'swap',
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Geist Mono',
+      cssVariable: '--font-mono',
+      fallbacks: ['ui-monospace', 'monospace'],
+      options: {
+        variants: [
+          {
+            src: ['./src/fonts/geist-mono-regular.ttf'],
+              weight: 400,
+              style: 'normal',
+              display: 'swap',
+          },
+        ],
+      },
+    },
+  ],
   integrations: [
     starlight({
       title: 'Snippets',
+      components: {
+        Head: './src/components/Head.astro',
+      },
       customCss: [
         './src/styles/starlight.css',
       ],
